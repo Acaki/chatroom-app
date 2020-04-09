@@ -12,18 +12,19 @@ const schema = yup.object({
 });
 
 const Login = () => {
-  const [redirect, setRedirect] = useState(false);
+  const [redirectUri, setRedirectUri] = useState('');
   const submitHandler = async (evt) => {
     const isValid = await schema.validate(evt);
     if (!isValid) {
       return;
     }
-    await login(evt.username, evt.password);
-    setRedirect(true);
+    const response = await login(evt.username, evt.password);
+    setRedirectUri(response.data.redirectUri);
+    localStorage.setItem('loggedUser', JSON.stringify(response.data.loggedUser));
   };
 
-  if (redirect) {
-    return <Redirect to={"/userList"} />;
+  if (redirectUri) {
+    return <Redirect to={redirectUri} />;
   }
 
   return (
