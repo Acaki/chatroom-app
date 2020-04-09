@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
-import { Formik, Field, ErrorMessage } from 'formik';
+import { Formik } from 'formik';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import { Redirect } from 'react-router-dom';
 import * as yup from 'yup';
 import { login } from './requests';
+import { useAuthDataContext } from './AuthDataProvider';
 
 const schema = yup.object({
   username: yup.string().required('Username is required'),
@@ -12,6 +13,7 @@ const schema = yup.object({
 });
 
 const Login = () => {
+  const { onLogin } = useAuthDataContext();
   const [redirectUri, setRedirectUri] = useState('');
   const submitHandler = async (evt) => {
     const isValid = await schema.validate(evt);
@@ -21,6 +23,7 @@ const Login = () => {
     const response = await login(evt.username, evt.password);
     setRedirectUri(response.data.redirectUri);
     localStorage.setItem('loggedUser', JSON.stringify(response.data.loggedUser));
+    onLogin(response.data.loggedUser);
   };
 
   if (redirectUri) {
