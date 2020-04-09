@@ -7,20 +7,37 @@ import './App.css';
 
 const history = createHistory();
 
-const PrivateRoute = ({ component: Component, ...rest }) => (
+const PrivateRoute = ({ component: Component, roles, ...rest }) => (
   <Route
     {...rest}
-    render={props =>
-      localStorage.getItem('loggedUser') !== null ? (
+    render={props => {
+      let loggedUser = localStorage.getItem(('loggedUser'));
+      if (loggedUser === null) {
+        return (
+          <Redirect
+            to={{
+              pathname: '/login',
+              state: { from: props.location },
+            }}
+          />
+        );
+      }
+      loggedUser = JSON.parse(loggedUser);
+      const restricted = roles && roles.indexOf(loggedUser.role) === -1;
+      if (restricted) {
+        return (
+          <Redirect
+            to={{
+              pathname: '/',
+            }}
+          />
+        );
+      }
+
+      return (
         <Component {...props} />
-      ) : (
-        <Redirect
-          to={{
-            pathname: '/login',
-            state: { from: props.location },
-          }}
-        />
-      )}
+      );
+    }}
   />
 );
 
@@ -29,7 +46,7 @@ const App = () => {
     <div className="App">
       <Router history={history}>
         <Route exact path="/login" component={Login} />
-        <PrivateRoute exact path="/userList" component={UserList} />
+        <PrivateRoute exact path="/userList" roles={['admin']} component={UserList} />
       </Router>
     </div>
   );
