@@ -12,6 +12,8 @@ export const createUser = (username, password) => axios.post('/user', {
   password,
 });
 
-export const deleteUser = (id) => axios.delete(`/user/${id}`)
-;
+export const deleteUser = (id) => axios.delete(`/user/${id}`);
+
 export const updateUser = (id, userInfo) => axios.patch(`/user/${id}`, userInfo);
+
+export const getChatRoomMessages = () => axios.get('/chatroom/messages');
