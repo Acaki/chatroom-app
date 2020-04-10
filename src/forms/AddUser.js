@@ -6,6 +6,7 @@ import * as yup from 'yup';
 import Button from 'react-bootstrap/Button';
 import Col from 'react-bootstrap/Col';
 import { createUser } from '../requests';
+import Alert from 'react-bootstrap/Alert';
 
 const schema = yup.object({
   username: yup.string().required('Username is required'),
@@ -13,13 +14,23 @@ const schema = yup.object({
 });
 
 const AddUser = (props) => {
-  const submitHandler = async (evt) => {
+  const submitHandler = async (evt, { setErrors }) => {
     const isValid = await schema.validate(evt);
     if (!isValid) {
       return;
     }
-    const response = await createUser(evt.username, evt.password);
-    props.addUser(response.data);
+    let response;
+    try {
+      response = await createUser(evt.username, evt.password);
+    } catch (e) {
+      if (e.response.status === 303) {
+        setErrors(e.response.data);
+      } else {
+        setErrors({ other: e.response.data });
+      }
+      return;
+    }
+    props.addUser(response.data.loggedUser);
   };
 
   return (
@@ -33,7 +44,10 @@ const AddUser = (props) => {
           <Form.Group as={Row} controlId="username">
             <Form.Label column sm="2">Username</Form.Label>
             <Col sm="10">
-              <Form.Control type="text" {...formik.getFieldProps('username')} />
+              <Form.Control type="text" isInvalid={formik.errors.username} {...formik.getFieldProps('username')} />
+              <Form.Control.Feedback type="invalid">
+                {formik.errors.username}
+              </Form.Control.Feedback>
             </Col>
           </Form.Group>
 
@@ -47,6 +61,10 @@ const AddUser = (props) => {
           <Button variants="primary" type="submit">
             Submit
           </Button>
+
+          { formik.errors.other && (
+            <Alert variant="danger">{formik.errors.other}</Alert>
+          )}
         </Form>
       )}
     </Formik>

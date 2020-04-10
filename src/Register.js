@@ -25,7 +25,7 @@ const Register = () => {
     try {
       response = await register(evt.username, evt.password);
     } catch (e) {
-      if (e.response.status === 401) {
+      if (e.response.status === 303) {
         setErrors(e.response.data);
       } else {
         setErrors({ other: e.response.data });
