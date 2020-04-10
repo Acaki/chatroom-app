@@ -15,7 +15,10 @@ const AuthDataProvider = (props) => {
     }
   }, []);
 
-  const onLogout = () => setAuthData(initialAuthData);
+  const onLogout = () => {
+    setAuthData(initialAuthData);
+    localStorage.removeItem('loggedUser');
+  };
 
   const onLogin = (newAuthData) => setAuthData(newAuthData);
 

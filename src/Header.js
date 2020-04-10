@@ -5,19 +5,28 @@ import { withRouter } from 'react-router-dom';
 import { useAuthDataContext } from './AuthDataProvider';
 
 const TopBar = () => {
-  const { onLogout } = useAuthDataContext();
+  const { name, role, onLogout } = useAuthDataContext();
 
   const logout = () => {
-    localStorage.removeItem('loggedUser');
     onLogout();
   };
 
   return (
     <Navbar bg="dark" expand="lg" variant="dark">
-      <Navbar.Brand href="#home">Chat Room</Navbar.Brand>
+      <Navbar.Brand href="/chatroom">Chat Room</Navbar.Brand>
       <Nav className="ml-auto">
-        <Nav.Link href="/login">Login</Nav.Link>
-        <Nav.Link href="/" onClick={logout}>Logout</Nav.Link>
+        { role === 'admin' && <Nav.Link href="/userList">User management</Nav.Link> }
+        { name ? (
+          <React.Fragment>
+            <Nav.Link>{name}</Nav.Link>
+            <Nav.Link onClick={logout}>Logout</Nav.Link>
+          </React.Fragment>
+        ) : (
+          <React.Fragment>
+            <Nav.Link href="/login">Login</Nav.Link>
+            <Nav.Link href="/register">Register</Nav.Link>
+r         </React.Fragment>
+        )}
       </Nav>
     </Navbar>
   );
