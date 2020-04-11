@@ -7,7 +7,7 @@ import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import { Redirect } from 'react-router-dom';
 import * as yup from 'yup';
-import { register } from './requests';
+import { login, register } from './requests';
 import { useAuthDataContext } from './AuthDataProvider';
 import Alert from 'react-bootstrap/Alert';
 
@@ -26,7 +26,8 @@ const Register = () => {
     }
     let response;
     try {
-      response = await register(evt.username, evt.password);
+      await register(evt.username, evt.password);
+      response = await login(evt.username, evt.password);
     } catch (e) {
       if (e.response.status === 303) {
         setErrors(e.response.data);
