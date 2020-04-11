@@ -5,7 +5,7 @@ import Row from 'react-bootstrap/Row';
 import * as yup from 'yup';
 import Button from 'react-bootstrap/Button';
 import Col from 'react-bootstrap/Col';
-import { createUser } from '../requests';
+import { register } from '../requests';
 import Alert from 'react-bootstrap/Alert';
 
 const schema = yup.object({
@@ -21,7 +21,7 @@ const AddUser = (props) => {
     }
     let response;
     try {
-      response = await createUser(evt.username, evt.password);
+      response = await register(evt.username, evt.password);
     } catch (e) {
       if (e.response.status === 303) {
         setErrors(e.response.data);
@@ -30,7 +30,7 @@ const AddUser = (props) => {
       }
       return;
     }
-    props.addUser(response.data.loggedUser);
+    props.addUser(response.data);
     resetForm();
   };
 

@@ -9,7 +9,7 @@ const UserTable = (props) => {
       if (confirm) {
         props.removeUser(userId);
       }
-    }
+    };
   };
 
   return (
