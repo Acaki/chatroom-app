@@ -28,7 +28,7 @@ const Router = () => (
     <Route exact path="/login" component={Login} />
     <Route exact path="/register" component={Register} />
     <PrivateRoute exact path="/userList" roles={['admin']} component={UserList} />
-    <PrivateRoute exact path="/chatroom" component={ChatRoom} />
+    <PrivateRoute exact path="/" component={ChatRoom} />
   </Switch>
 );
 

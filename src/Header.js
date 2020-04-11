@@ -13,7 +13,7 @@ const TopBar = () => {
 
   return (
     <Navbar bg="dark" expand="lg" variant="dark">
-      <Navbar.Brand href="/chatroom">Chat Room</Navbar.Brand>
+      <Navbar.Brand href="/">Chat Room</Navbar.Brand>
       <Nav className="ml-auto">
         { role === 'admin' && <Nav.Link href="/userList">User management</Nav.Link> }
         { name ? (
