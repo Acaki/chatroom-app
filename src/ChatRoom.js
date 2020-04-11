@@ -2,6 +2,8 @@ import React, { useEffect, useState, useRef } from 'react';
 import * as yup from 'yup';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
+import { Container } from 'react-bootstrap';
+import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import io from 'socket.io-client';
 import { Formik } from 'formik';
@@ -56,19 +58,22 @@ const ChatRoom = () => {
   }, []);
 
   return (
-    <div className="chat-room-page">
+    <Container fluid className="mt-3">
+      <Row className="mb-3">
+        <Col sm={2}><b>Name</b></Col>
+        <Col sm={8}><b>Message</b></Col>
+        <Col sm={2}><b>Time</b></Col>
+      </Row>
       <div className="chat-box">
-        {messages.map((message, i) => {
-          return (
-            <div className="col-12" key={i}>
-              <div className="row">
-                <div className="col-2">{message.user.name}</div>
-                <div className="col">{message.message}</div>
-                <div className="col-3">{message.created_at}</div>
-              </div>
-            </div>
-          );
-        })}
+        {messages.map((message, i) => (
+          <Col key={i}>
+            <Row>
+              <Col sm={2}>{message.user.name}</Col>
+              <Col sm={8}>{message.message}</Col>
+              <Col sm={2}>{message.created_at}</Col>
+            </Row>
+          </Col>
+        ))}
         <div ref={messagesEndRef} />
       </div>
       <Formik
@@ -77,7 +82,7 @@ const ChatRoom = () => {
         initialValues={{ message: '' }}
       >
         {(formik) => (
-          <Form onSubmit={formik.handleSubmit}>
+          <Form onSubmit={formik.handleSubmit} className="mt-3">
             <Form.Row>
               <Form.Group as={Col} md="12" controlId="message">
                 <Form.Label>Message</Form.Label>
@@ -91,7 +96,7 @@ const ChatRoom = () => {
           </Form>
         )}
       </Formik>
-    </div>
+    </Container>
   );
 };
 

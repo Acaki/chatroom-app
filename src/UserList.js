@@ -42,8 +42,7 @@ const UserList = () => {
   }, []);
 
   return (
-    <Container>
-      <h1>User list</h1>
+    <Container className="mt-5">
       <Row>
         {editing ? (
           <Col>

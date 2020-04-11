@@ -2,6 +2,9 @@ import React, { useState } from 'react';
 import { Formik } from 'formik';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
+import Container from 'react-bootstrap/Container';
+import Row from 'react-bootstrap/Row';
+import Col from 'react-bootstrap/Col';
 import Alert from 'react-bootstrap/Alert';
 import { Redirect } from 'react-router-dom';
 import * as yup from 'yup';
@@ -42,39 +45,47 @@ const Login = () => {
   }
 
   return (
-    <Formik
-      validationSchema={schema}
-      onSubmit={submitHandler}
-      initialValues={{ username: '', password: '' }}
-    >
-      {(formik) => (
-        <Form onSubmit={formik.handleSubmit}>
-          <Form.Group controlId="username">
-            <Form.Label>Username</Form.Label>
-            <Form.Control type="text" isInvalid={formik.errors.username} {...formik.getFieldProps('username')} />
-            <Form.Control.Feedback type="invalid">
-              {formik.errors.username}
-            </Form.Control.Feedback>
-          </Form.Group>
+    <Container className="mt-5">
+      <Row>
+        <Col></Col>
+        <Col>
+          <Formik
+            validationSchema={schema}
+            onSubmit={submitHandler}
+            initialValues={{ username: '', password: '' }}
+          >
+            {(formik) => (
+              <Form onSubmit={formik.handleSubmit}>
+                <Form.Group controlId="username">
+                  <Form.Label>Username</Form.Label>
+                  <Form.Control type="text" isInvalid={formik.errors.username} {...formik.getFieldProps('username')} />
+                  <Form.Control.Feedback type="invalid">
+                    {formik.errors.username}
+                  </Form.Control.Feedback>
+                </Form.Group>
 
-          <Form.Group controlId="password">
-            <Form.Label>Password</Form.Label>
-            <Form.Control type="password" isInvalid={formik.errors.password} {...formik.getFieldProps('password')} />
-            <Form.Control.Feedback type="invalid">
-              {formik.errors.password}
-            </Form.Control.Feedback>
-          </Form.Group>
+                <Form.Group controlId="password">
+                  <Form.Label>Password</Form.Label>
+                  <Form.Control type="password" isInvalid={formik.errors.password} {...formik.getFieldProps('password')} />
+                  <Form.Control.Feedback type="invalid">
+                    {formik.errors.password}
+                  </Form.Control.Feedback>
+                </Form.Group>
 
-          <Button varians="primary" type="submit">
-            Login
-          </Button>
+                <Button varians="primary" type="submit">
+                  Login
+                </Button>
 
-          { formik.errors.other && (
-            <Alert variant="danger">{formik.errors.other}</Alert>
-          )}
-        </Form>
-      )}
-    </Formik>
+                { formik.errors.other && (
+                  <Alert variant="danger">{formik.errors.other}</Alert>
+                )}
+              </Form>
+            )}
+          </Formik>
+        </Col>
+        <Col></Col>
+      </Row>
+    </Container>
   );
 };
 

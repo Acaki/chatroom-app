@@ -2,6 +2,9 @@ import React, { useState } from 'react';
 import { Formik } from 'formik';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
+import { Container } from 'react-bootstrap';
+import Row from 'react-bootstrap/Row';
+import Col from 'react-bootstrap/Col';
 import { Redirect } from 'react-router-dom';
 import * as yup from 'yup';
 import { register } from './requests';
@@ -42,6 +45,10 @@ const Register = () => {
   }
 
   return (
+    <Container className="mt-5">
+      <Row>
+      <Col></Col>
+      <Col xs={6}>
     <Formik
       validationSchema={schema}
       onSubmit={submitHandler}
@@ -62,7 +69,7 @@ const Register = () => {
             <Form.Control type="password" {...formik.getFieldProps('password')} />
           </Form.Group>
 
-          <Button varians="primary" type="submit">
+          <Button variant="info" type="submit">
             Register
           </Button>
 
@@ -72,6 +79,10 @@ const Register = () => {
         </Form>
       )}
     </Formik>
+      </Col>
+      <Col></Col>
+      </Row>
+    </Container>
   );
 };
 
