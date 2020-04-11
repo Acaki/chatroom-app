@@ -24,18 +24,6 @@ const ChatRoom = () => {
     messagesEndRef.current.scrollIntoView({ behavior: 'smooth' });
   };
 
-  const getMessages = async () => {
-    const response = await getChatRoomMessages();
-    setMssages(response.data);
-    scrollToBottom();
-  };
-
-  const listenForNewMessages = () => {
-    socket.on('newMessage', () => {
-      getMessages();
-    });
-  };
-
   const submitHandler = async (evt, { resetForm }) => {
     const isValid = await schema.validate(evt);
     if (!isValid) {
@@ -52,6 +40,18 @@ const ChatRoom = () => {
   };
 
   useEffect(() => {
+    const getMessages = async () => {
+      const response = await getChatRoomMessages();
+      setMssages(response.data);
+      scrollToBottom();
+    };
+
+    const listenForNewMessages = () => {
+      socket.on('newMessage', () => {
+        getMessages();
+      });
+    };
+
     getMessages();
     listenForNewMessages();
   }, []);

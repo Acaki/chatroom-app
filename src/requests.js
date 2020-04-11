@@ -1,5 +1,7 @@
 import axios from 'axios';
 
+axios.defaults.baseURL = 'api';
+
 export const login = (username, password) => axios.post('/user/login', {
   username,
   password,
