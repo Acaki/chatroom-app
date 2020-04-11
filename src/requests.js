@@ -5,7 +5,7 @@ export const login = (username, password) => axios.post('/user/login', {
   password,
 });
 
-export const register = (username, password) => axios.post('/user/register', {
+export const register = (username, password) => axios.post('/user', {
   username,
   password,
 });
