@@ -16,7 +16,6 @@ const schema = yup.object({
 });
 
 const ChatRoom = () => {
-  const [initialized, setInitialized] = useState(false);
   const [messages, setMssages] = useState([]);
 
   const messagesEndRef = useRef(null);
@@ -28,8 +27,13 @@ const ChatRoom = () => {
   const getMessages = async () => {
     const response = await getChatRoomMessages();
     setMssages(response.data);
-    setInitialized(true);
     scrollToBottom();
+  };
+
+  const listenForNewMessages = () => {
+    socket.on('newMessage', () => {
+      getMessages();
+    });
   };
 
   const submitHandler = async (evt, { resetForm }) => {
@@ -43,19 +47,14 @@ const ChatRoom = () => {
       message: evt.message,
     };
 
-    socket.on('newMessage', () => {
-      getMessages();
-    });
     socket.emit('message', data);
     resetForm();
   };
 
   useEffect(() => {
-    if (!initialized) {
-      getMessages();
-      scrollToBottom();
-    }
-  });
+    getMessages();
+    listenForNewMessages();
+  }, []);
 
   return (
     <div className="chat-room-page">

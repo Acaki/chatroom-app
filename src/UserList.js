@@ -8,7 +8,6 @@ import AddUser from './forms/AddUser';
 import EditUser from './forms/EditUser';
 
 const UserList = () => {
-  const [initialized, setInitialized] = useState(false);
   const [users, setUsers] = useState([]);
   const [editing, setEditing] = useState(false);
   const [editingUser, setEditingUser] = useState({ id: null, name: '', role: '' });
@@ -16,7 +15,6 @@ const UserList = () => {
   const requestUsers = async () => {
     const response = await getUsers();
     setUsers(response.data);
-    setInitialized(true);
   };
 
   const addUser = (user) => {
@@ -40,10 +38,8 @@ const UserList = () => {
   };
 
   useEffect(() => {
-    if (!initialized) {
-      requestUsers();
-    }
-  });
+    requestUsers();
+  }, []);
 
   return (
     <Container>
