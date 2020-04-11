@@ -24,7 +24,7 @@ const UserTable = (props) => {
       </thead>
       <tbody>
       {props.users.map((user) => (
-        <tr>
+        <tr key={user.id}>
           <td>{user.id}</td>
           <td>{user.name}</td>
           <td>{user.role}</td>
