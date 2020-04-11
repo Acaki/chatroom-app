@@ -49,10 +49,10 @@ const EditUser = (props) => {
             </Col>
           </Form.Group>
 
-          <Button variants="primary" type="submit">
+          <Button variant="primary" type="submit">
             Update
-          </Button>
-          <Button variants="secondary" onClick={() => props.setEditing(false)}>
+          </Button>{' '}
+          <Button variant="secondary" onClick={() => props.setEditing(false)}>
             Cancel
           </Button>
         </Form>
