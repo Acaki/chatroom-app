@@ -26,12 +26,7 @@ const ChatRoom = () => {
     setInitialized(true);
   };
 
-  socket.on('newMessage', () => {
-    getMessages();
-    setInitialized(true);
-  });
-
-  const submitHandler = async (evt) => {
+  const submitHandler = async (evt, { resetForm }) => {
     const isValid = await schema.validate(evt);
     if (!isValid) {
       return;
@@ -41,7 +36,12 @@ const ChatRoom = () => {
       userId: loggedUser.id,
       message: evt.message,
     };
+
+    socket.on('newMessage', () => {
+      getMessages();
+    });
     socket.emit('message', data);
+    resetForm();
   };
 
   useEffect(() => {

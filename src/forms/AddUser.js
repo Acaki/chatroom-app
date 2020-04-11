@@ -14,7 +14,7 @@ const schema = yup.object({
 });
 
 const AddUser = (props) => {
-  const submitHandler = async (evt, { setErrors }) => {
+  const submitHandler = async (evt, { setErrors, resetForm }) => {
     const isValid = await schema.validate(evt);
     if (!isValid) {
       return;
@@ -31,6 +31,7 @@ const AddUser = (props) => {
       return;
     }
     props.addUser(response.data.loggedUser);
+    resetForm();
   };
 
   return (
@@ -54,7 +55,10 @@ const AddUser = (props) => {
           <Form.Group as={Row} controlId="password">
             <Form.Label column sm="2">Password</Form.Label>
             <Col sm="10">
-              <Form.Control type="password" {...formik.getFieldProps('password')} />
+              <Form.Control type="password" isInvalid={formik.errors.password} {...formik.getFieldProps('password')} />
+              <Form.Control.Feedback type="invalid">
+                {formik.errors.password}
+              </Form.Control.Feedback>
             </Col>
           </Form.Group>
 
