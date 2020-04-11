@@ -1,0 +1,5 @@
+dispatch:
+  - url: '*/api/*'
+    service: api
+  - url: '*/socket.io/*'
+    service: api
