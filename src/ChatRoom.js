@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import * as yup from 'yup';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
@@ -19,11 +19,17 @@ const ChatRoom = () => {
   const [initialized, setInitialized] = useState(false);
   const [messages, setMssages] = useState([]);
 
+  const messagesEndRef = useRef(null);
+
+  const scrollToBottom = () => {
+    messagesEndRef.current.scrollIntoView({ behavior: 'smooth' });
+  };
 
   const getMessages = async () => {
     const response = await getChatRoomMessages();
     setMssages(response.data);
     setInitialized(true);
+    scrollToBottom();
   };
 
   const submitHandler = async (evt, { resetForm }) => {
@@ -47,6 +53,7 @@ const ChatRoom = () => {
   useEffect(() => {
     if (!initialized) {
       getMessages();
+      scrollToBottom();
     }
   });
 
@@ -64,11 +71,12 @@ const ChatRoom = () => {
             </div>
           );
         })}
+        <div ref={messagesEndRef} />
       </div>
       <Formik
         validationSchema={schema}
         onSubmit={submitHandler}
-        initialValues={{ username: '', password: '' }}
+        initialValues={{ message: '' }}
       >
         {(formik) => (
           <Form onSubmit={formik.handleSubmit}>
