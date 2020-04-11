@@ -8,8 +8,7 @@ import { Formik } from 'formik';
 import { getChatRoomMessages } from './requests';
 import './ChatRoom.css';
 
-const SOCKET_IO_URL = 'http://localhost:3000';
-const socket = io(SOCKET_IO_URL);
+const socket = io(process.env.REACT_APP_SOCKET_IO_URL);
 
 const schema = yup.object({
   message: yup.string().required('Message is required'),
